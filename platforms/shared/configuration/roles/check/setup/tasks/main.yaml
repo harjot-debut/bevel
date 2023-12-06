@@ -5,6 +5,30 @@
 ##############################################################################################
 
 ---
+
+- name: Print component_type
+  debug:
+    msg: "Component Type: {{ component_type }}"
+
+- name: Print Vault URL
+  debug:
+    msg: "Vault URL: {{ vault.url }}"
+
+- name: Print Vault Root Token
+  debug:
+    msg: "Vault Root Token: {{ vault.root_token }}"
+      
+# - name: Print variables
+#   shell: echo "printing vars"
+#   environment:
+#     KUBECONFIG: "{{ kubernetes.config_file }}"  # Path to your kubeconfig file
+#   register: cluster_info
+
+# - debug:
+#     var: cluster_info.stdout
+
+
+
 # This task checks if the vault path already exists
 - name: Check if Kubernetes-auth already created for Organization
   shell: |
