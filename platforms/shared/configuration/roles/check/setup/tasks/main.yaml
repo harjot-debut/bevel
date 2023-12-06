@@ -16,14 +16,12 @@
 
 - name: Print Vault Root Token
   debug:
-    msg: "Vault Root Token: {{ vault.root_token }}"
+    msg: "Vault Root Token: {{ vault.root_token }}"   
 
-- name: Print Variables
+- name: Print component_type
   debug:
-    var:
-      - "Component Type: {{ component_type }}"
-      - "Vault URL: {{ vault.url }}"
-      - "Vault Root Token: {{ vault.root_token }}"    
+    msg: "component_type: {{ component_name }}"   
+          
       
 # - name: Print variables
 #   shell: echo "printing vars"
