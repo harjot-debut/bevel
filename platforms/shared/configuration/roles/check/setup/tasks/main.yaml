@@ -77,6 +77,16 @@
   register: get_gitcred
   when: check == "git_credentials"
 
+
+
+- name: Print vault_field
+  debug:
+    msg: "vault_field: {{ vault_field }}" 
+
+- name: Print vault_path
+  debug:
+    msg: "vault_path: {{ vault_path }}" 
+
 # This task waits until certs are stored in vault.
 - name: Wait for certs to be created.
   shell: |
