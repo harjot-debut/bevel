@@ -12,12 +12,16 @@ echo "Starting build process..."
 echo "Adding env variables..."
 export PATH=/root/bin:$PATH
 
+echo "entered"
+
 #Path to k8s config file
-KUBECONFIG=/home/bevel/build/config
+export KUBECONFIG=/home/bevel/build/config
 
-# kubectl config view
+echo $KUBECONFIG
 
-# kubectl cluster-info
+kubectl config view
+
+kubectl cluster-info
 
 echo "Validatin network yaml"
 ajv validate -s /home/bevel/platforms/network-schema.json -d /home/bevel/build/network.yaml 

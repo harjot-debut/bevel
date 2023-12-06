@@ -11,6 +11,23 @@
 
 - set_fact:
     cloud_provider: "{{ org.cloud_provider }}"
+
+# - name: Get current Kubernetes context
+#   shell:
+#     cmd: kubectl config current-context
+#   register: current_kube_context
+
+# - debug:
+#     var: current_kube_context.stdout
+
+
+# - name: Get Kubernetes cluster info
+#   shell:
+#     cmd: kubectl cluster-info
+#   register: cluster_info
+
+# - debug:
+#     var: cluster_info.stdout    
     
 # Check storageclass exists already
 - name: Check if storageclass exists
