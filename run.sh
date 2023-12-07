@@ -10,8 +10,8 @@ set -e
 echo "Starting build process..."
 
 
-export VAULT_ADDR='http://192.168.18.177:8200' 
-export VAULT_TOKEN="hvs.Cg6HrMwJ01aP6FVRXwDQz0pJ"
+# export VAULT_ADDR='http://192.168.18.177:8200' 
+# export VAULT_TOKEN="hvs.Cg6HrMwJ01aP6FVRXwDQz0pJ"
 
 echo "Adding env variables..."
 export PATH=/root/bin:$PATH
