@@ -98,6 +98,13 @@
     msg: "vault_path: {{ vault_path }}"
   when: vault_path is defined
 
+
+
+- name: Debug check variable
+  debug:
+    msg: "Value of check: {{ check }}"
+  when: check is defined
+
 # This task waits until certs are stored in vault.
 - name: Wait for certs to be created.
   shell: |
@@ -109,10 +116,10 @@
   retries: "{{ network.env.retry_count}}"
   delay: 30
   until: vault_result.failed == False
-  vars:
-    check: "crypto_materials"
-  when: 
-    - check == "crypto_materials"
+  # vars:
+  #   check: "crypto_materials"
+  when:
+    - (check | default('crypto_materials')) == "crypto_materials"
     - vault_path is defined
 
 
