@@ -9,14 +9,14 @@
 # This task will try for a maximum number of iterations defined in env.retry_count of network.yaml with an interval of
 # 35 seconds between each try
 
-- name: Get Kubernetes cluster info
-  shell: kubectl cluster-info
-  environment:
-    KUBECONFIG: "{{ kubernetes.config_file }}"  # Path to your kubeconfig file
-  register: cluster_info
+# - name: Get Kubernetes cluster info
+#   shell: kubectl cluster-info
+#   environment:
+#     KUBECONFIG: "{{ kubernetes.config_file }}"  # Path to your kubeconfig file
+#   register: cluster_info
 
-- debug:
-    var: cluster_info.stdout
+# - debug:
+#     var: cluster_info.stdout
 
 # Check if component created without retry
 - name: Check {{ component_type }} {{ component_name }} is created
