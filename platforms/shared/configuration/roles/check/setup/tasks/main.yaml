@@ -98,6 +98,10 @@
     msg: "vault_path: {{ vault_path }}"
   when: vault_path is defined
 
+
+
+
+
 # This task waits until certs are stored in vault.
 - name: Wait for certs to be created.
   shell: |
@@ -109,7 +113,15 @@
   retries: "{{ network.env.retry_count}}"
   delay: 30
   until: vault_result.failed == False
-  when: check == "crypto_materials"
+  when: vault_path is defined
+  # when: check == "crypto_materials"
+
+
+- name: Display output of certs to be created 
+  debug:
+    var: vault_result.stdout_lines
+
+
 
 # This task check if certs exists in vault.
 - name: check if certs exists in vault.
