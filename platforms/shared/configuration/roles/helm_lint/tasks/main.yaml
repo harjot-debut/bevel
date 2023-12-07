@@ -12,11 +12,27 @@
 #   value_file: Helmrelease value file path (absolute to project root)
 # 
 
+
+- name: Print value_file comng from file
+  debug:
+    msg: "value_file: {{value_file }}"
+  when: value_file is defined
+
 # Check if input value file exists
 - name: "Check if value file exists"
   stat:
     path: "{{ value_file }}"
   register: value_stat_result
+
+- name: Print value of the register variable
+  debug:
+    var: value_stat_result   
+
+- name: Check if file exists
+  debug:
+    msg: "Value file exists: {{ value_stat_result.stat }}"
+
+ 
 
 # create temp test directory
 - name: "Check or create test directory"

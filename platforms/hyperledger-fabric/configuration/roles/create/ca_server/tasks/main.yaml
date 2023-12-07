@@ -10,24 +10,40 @@
 #############################################################################################
 
 # Create the folder to store crypto material
+
+#creating the directory ./build/crypto-config/ordererOrganizations/supplychain-net/ca] 
 - name: "creating the directory ./build/crypto-config/{{ component_type }}Organizations/{{ component_name }}/ca"
   include_role:
     name: "{{ playbook_dir }}/../../shared/configuration/roles/check/directory"
   vars:
-    path: "./build/crypto-config/{{ component_type }}Organizations/{{ component_name }}/ca"
+    path: "./build/crypto-config/{{ component_type }}Organizations/{{ component_name }}/ca" #passing path in chart
 
+
+- name: Print vault_path comng from file
+  debug:
+    msg: "vault.secret_path: {{ vault.secret_path }}"
+  when: vault.secret_path is defined
+
+#vault_field: supplychain-net-CA.key
+#vault_path: secretsv2/crypto/ordererOrganizations/supplychain-net/ca
 - name: Check if CA key already exists in vault.
   include_role:
     name: "{{ playbook_dir }}/../../shared/configuration/roles/check/setup"
-  vars:
-    vault_field: "{{ component_name }}-CA.key"
+  vars:  #passing these fields in in above chart
+    vault_field: "{{ component_name }}-CA.key"   #supplychain-net-CA.key
     vault_path: "{{ vault.secret_path | default('secretsv2') }}/crypto/{{ component_type }}Organizations/{{ component_name }}/ca"
     check: "certs_created"
+
+- name: Print component comng from file
+  debug:
+    msg: "component: {{component }}"
+  when: component is defined
+
 
 # Generate cacerts helmrelease file.
 - name: "Create value file for cacerts job"
   include_role:
-    name: helm_component
+    name: helm_component  #take values from /home/bevel/platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml
   vars: 
     name: "{{ component }}"   
     type: "cacerts_job"    
