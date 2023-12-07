@@ -25,7 +25,7 @@ spec:
 
     vault:
       role: vault-role
-      address: http://192.168.18.177:8200
+      address: http://127.0.0.1:8200
       authpath: devsupplychain-net-auth
       policy: vault-crypto-supplychain-net-supplychain-ro
       policydata: "{\n  \"policy\": \"\\npath \\\"secretsv2/data/crypto/ordererOrganizations/supplychain-net/*\\\" {\n    \\ncapabilities = [\\\"list\\\", \\\"read\\\", \\\"create\\\", \\\"update\\\"]\\n\n  }\n  \\npath \\\"secretsv2/*\\\" {\n    \\ncapabilities = [\\\"list\\\"]\\n\n  }\n  \\npath \\\"secretsv2/data/crypto/peerOrganizations/*\\\" {\n    \\ncapabilities = [\\\"deny\\\"]\\n\n  }\n  \\npath \\\"secretsv2/data/credentials/supplychain-net/*\\\" {\n    \\ncapabilities = [\\\"list\\\", \\\"read\\\", \\\"create\\\", \\\"update\\\"]\\n\n  }\"\n}"
@@ -36,8 +36,8 @@ spec:
       kubernetes_url: https://test-bevel-integra-dns-elwgnmdn.hcp.eastus.azmk8s.io:443
     
     rbac:
-      create: False
+      create: True
 
     serviceAccount:
-      create: False
+      create: True
       name: vault-auth
