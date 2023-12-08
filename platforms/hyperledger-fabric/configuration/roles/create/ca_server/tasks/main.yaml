@@ -37,13 +37,13 @@
 - name: Print component comng from file
   debug:
     msg: "component: {{component }}"
-  when: component is defined
+  when: component is defined  #supplychain
 
 
 # Generate cacerts helmrelease file.
 - name: "Create value file for cacerts job"
   include_role:
-    name: helm_component  #take values from /home/bevel/platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml
+    name: helm_component  # will run /home/bevel/platforms/hyperledger-fabric/configuration/roles/helm_component/tasks/main.yaml
   vars: 
     name: "{{ component }}"   
     type: "cacerts_job"    
@@ -55,7 +55,7 @@
     git_branch: "{{ gitops.branch }}"
     charts_dir: "{{ gitops.chart_source }}"
     vault: "{{ item.vault }}"
-    values_dir: "{{playbook_dir}}/../../../{{ gitops.release_dir }}/{{ component }}"
+    values_dir: "{{playbook_dir}}/../../../{{ gitops.release_dir }}/{{ component }}" ##take values from /home/bevel/platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml
   when: certs_created.failed == True
 
 # Git Push : Push the above generated files to git directory 
@@ -70,14 +70,27 @@
   tags:
     - notest
 
+
+
+- name: Print certs_created comng from file
+  debug:
+    msg: "certs_created: {{certs_created }}"
+  when: certs_created is defined  #supplychain
+
+
+- name: Print item comng from file
+  debug:
+    msg: "item: {{item }}"
+  when: item is defined  #supplychain
+
 # Check if cacerts-job is completed
 - name: Check if cacerts-job job is completed
   include_role:
     name: "{{ playbook_dir }}/../../shared/configuration/roles/check/helm_component"
   vars:
     component_type: Job
-    namespace: "{{ component }}-net"
-    component_name: "{{ component }}-cacerts-job"
+    namespace: "{{ component }}-net"  #supplychain-net
+    component_name: "{{ component }}-cacerts-job" #supplychain--cacerts-job
     kubernetes: "{{ item.k8s }}"
   when: certs_created.failed == True
   tags:

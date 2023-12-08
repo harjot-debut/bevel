@@ -8,7 +8,19 @@
 # Task to check if Job deployed and completed
 # This task will try for a maximum of 10 times with an interval of
 # 60 seconds between each try
-- name: 'Wait for {{ component_type }} {{ component_name }} in {{ namespace }}'
+
+- name: Print kubernetes.config_file comng from file
+  debug:
+    msg: "kubernetes.config_file: {{kubernetes.config_file }}"
+  when: kubernetes.config_file is defined  #supplychain
+
+
+- name: Print kubernetes.context comng from file
+  debug:
+    msg: "kubernetes.context: {{kubernetes.context }}"
+  when: kubernetes.context is defined  #supplychain  
+
+- name: 'Wait for {{ component_type }} {{ component_name }} in {{ namespace }}'  #Wait for Job supplychain-cacerts-job in supplychain-net
   k8s_info:
     kind: "Job"
     namespace: "{{ namespace }}"

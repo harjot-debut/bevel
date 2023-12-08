@@ -13,24 +13,24 @@
 # 
 
 
-- name: Print value_file comng from file
+- name: Print value_file comng from file   
   debug:
-    msg: "value_file: {{value_file }}"
+    msg: "value_file: {{value_file }}"  #/home/bevel/platforms/hyperledger-fabric/configuration/../../../platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml"
   when: value_file is defined
 
 # Check if input value file exists
 - name: "Check if value file exists"
   stat:
     path: "{{ value_file }}"
-  register: value_stat_result
+  register: value_stat_result    #value_stat_result.stat.exists == True
 
 - name: Print value of the register variable
   debug:
     var: value_stat_result   
 
-- name: Check if file exists
-  debug:
-    msg: "Value file exists: {{ value_stat_result.stat }}"
+# - name: Check if file exists
+#   debug:
+#     msg: "Value file exists: {{ value_stat_result.stat }}"
 
  
 
@@ -47,14 +47,25 @@
   include_vars: "{{ value_file }}"
   when: value_stat_result.stat.exists == True
 
+
+- name: Print metadata.name comng from file   
+  debug:
+    msg: "metadata.name: {{metadata.name }}"  #/home/bevel/platforms/hyperledger-fabric/configuration/../../../platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml"
+  when: metadata.name is defined  
+
+- name: Print spec.get('values') comng from file   
+  debug:
+    msg: "spec.get('values'): {{spec.get('values') }}"  #/home/bevel/platforms/hyperledger-fabric/configuration/../../../platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml"
+  when: spec.get('values') is defined    
+
 # Create the helmvalue file to run test
-- name: "Create value file"
+- name: "Create value file"     #/home/bevel/platforms/hyperledger-fabric/configuration/build/test/supplychain-cacerts-job.yaml
   local_action: copy content="{{ spec.get('values') | to_nice_yaml }}" dest="./build/test/{{metadata.name}}.yaml"
   when: value_stat_result.stat.exists == True
   changed_when: false
 
 # Execute helm lint. If this fails, fix the errors
 - name: "Run helm lint"
-  shell: |
-    helm lint -f "./build/test/{{metadata.name}}.yaml" "{{playbook_dir}}/../../../{{chart_path}}/{{charts[helmtemplate_type]}}"
+  shell: | # helm lint -f /home/bevel/platforms/hyperledger-fabric/configuration/../../../platforms/hyperledger-fabric/charts/fabric-cacerts-gen\
+    helm lint -f "./build/test/{{metadata.name}}.yaml" "{{playbook_dir}}/../../../{{chart_path}}/{{charts[helmtemplate_type]}}"  
   when: value_stat_result.stat.exists == True

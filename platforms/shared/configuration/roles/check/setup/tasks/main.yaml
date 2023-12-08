@@ -18,9 +18,9 @@
   debug:
     msg: "Vault Root Token: {{ vault.root_token }}"   
 
-- name: Print component_type
+- name: Print component_name
   debug:
-    msg: "component_type: {{ component_name }}"   
+    msg: "component_name: {{ component_name }}"   
           
       
 # - name: Print variables
@@ -121,11 +121,12 @@
   retries: "{{ network.env.retry_count}}"
   delay: 30
   until: vault_result.failed == False
-  # vars:
-  #   check: "crypto_materials"
-  when:
-    - (check | default('crypto_materials')) == "crypto_materials"
-    - vault_path is defined
+  when:  check == "crypto_materials"
+  # # vars:
+  # #   check: "crypto_materials"
+  # when:
+  #   - (check | default('crypto_materials')) == "crypto_materials"
+  #   - vault_path is defined
 
 
 - name: Display shell output
