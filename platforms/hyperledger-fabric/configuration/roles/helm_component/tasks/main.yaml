@@ -17,13 +17,13 @@
 
 - name: Print helm_templates[type] comng from file
   debug:
-    msg: "helm_templates[type]: {{helm_templates[type] }}"
+    msg: "helm_templates[type]: {{helm_templates[type] }}"  #cacerts_job.tpl
   when: helm_templates[type] is defined
 
-- name: Print default('helm_component.tpl') comng from file
-  debug:
-    msg: "default('helm_component.tpl'): {{default('helm_component.tpl') }}"
-  when: default('helm_component.tpl') is defined   
+# - name: Print default('helm_component.tpl') comng from file
+#   debug:
+#     msg: "default('helm_component.tpl'): {{default('helm_component.tpl') }}"
+#   when: default('helm_component.tpl') is defined   
 
 
 

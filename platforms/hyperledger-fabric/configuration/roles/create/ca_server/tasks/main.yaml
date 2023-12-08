@@ -22,7 +22,13 @@
 - name: Print vault_path coming from file
   debug:
     msg: "vault.secret_path: {{ vault.secret_path }}"
-  when: vault.secret_path is defined
+  when: vault.secret_path is defined  #secretsv2
+
+- name: Print check comng in ca_server file before checking ca key
+  debug:
+    msg: "check: {{check }}"
+  when: check is defined  #supplychain
+
 
 #vault_field: supplychain-net-CA.key
 #vault_path: secretsv2/crypto/ordererOrganizations/supplychain-net/ca
@@ -32,13 +38,24 @@
   vars:  #passing these fields in in above chart
     vault_field: "{{ component_name }}-CA.key"   #supplychain-net-CA.key
     vault_path: "{{ vault.secret_path | default('secretsv2') }}/crypto/{{ component_type }}Organizations/{{ component_name }}/ca"
-    check: "certs_created"
+    check: "certs_created"   #set value to certs_created if ca key is there in vault
+
+- name: Print check comng in ca_server file after checking ca key
+  debug:
+    msg: "check: {{check }}"
+  when: check is defined  #
+
 
 - name: Print component comng from file
   debug:
     msg: "component: {{component }}"
   when: component is defined  #supplychain
 
+
+- name: Print ca comng from file
+  debug:
+    msg: "ca: {{ca }}"
+  when: ca is defined  #supplychain
 
 # Generate cacerts helmrelease file.
 - name: "Create value file for cacerts job"

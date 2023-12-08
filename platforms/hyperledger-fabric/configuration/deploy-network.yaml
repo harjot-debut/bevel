@@ -103,16 +103,28 @@
       loop_control:
         loop_var: org
 
+
+    - name: Print item.services.ca comng from file
+      debug:
+        msg: "item.services.ca: {{item.services.ca }}"
+      when: item.services.ca is defined  
+
+    
+    - name: Print item.vault comng from file
+      debug:
+        msg: "item.vault: {{item.vault }}"
+      when: item.vault is defined   
+
     # Create CA Server helm-value files and check-in
     - name: Create CA server for each organization
       include_role:
-        name: "create/ca_server"
+        name: "create/ca_server"   #/home/bevel/platforms/hyperledger-fabric/configuration/roles/create/ca_server/tasks/main.yaml
       vars:
         component_name: "{{ item.name | lower}}-net"
         component: "{{ item.name | lower}}"
         component_type: "{{ item.type | lower}}"
         component_services: "{{ item.services }}"
-        sc_name: "{{ component }}-{{ item.cloud_provider }}-storageclass"
+        sc_name: "{{ component }}-{{ item.cloud_provider }}-storageclass"   #supplychain-azure-storageclass
         kubernetes: "{{ item.k8s }}"
         vault: "{{ item.vault }}"
         ca: "{{ item.services.ca }}"

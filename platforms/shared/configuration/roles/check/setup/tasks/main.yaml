@@ -20,8 +20,12 @@
 
 - name: Print component_name
   debug:
-    msg: "component_name: {{ component_name }}"   
-          
+    msg: "component_name: {{ component_name }}"     #supplychain-net
+
+
+- name: Print check
+  debug:
+    msg: "check: {{ check }}"     
       
 # - name: Print variables
 #   shell: echo "printing vars"
@@ -90,17 +94,17 @@
 
 - name: Print vault_field
   debug:
-    msg: "vault_field: {{ vault_field }}"
-  when: vault_field is defined
+    msg: "vault_field: {{ vault_field }}"  #supplychain-net-CA.key
+  when: vault_field is defined  
 
 - name: Print vault_path
   debug:
-    msg: "vault_path: {{ vault_path }}"
+    msg: "vault_path: {{ vault_path }}"    #secretsv2/crypto/ordererOrganizations/supplychain-net/ca
   when: vault_path is defined
 
 - name: Print the origin of vault_path
   debug:
-    msg: "The value of vault_path ({{ check }}) is defined in: {{ lookup('vars', 'check', wantlist=True) }}"
+    msg: "The value of check ({{ check }}) is defined in: {{ lookup('vars', 'check', wantlist=True) }}"
   when:
     - vault_path is defined
     - check is defined
@@ -108,7 +112,7 @@
 - name: Debug check variable
   debug:
     msg: "Value of check: {{ check }}"
-  when: check is defined
+  when: check is defined   #certs_created
 
 # This task waits until certs are stored in vault.
 - name: Wait for certs to be created.
@@ -121,7 +125,7 @@
   retries: "{{ network.env.retry_count}}"
   delay: 30
   until: vault_result.failed == False
-  when:  check == "crypto_materials"
+  when: check == "crypto_materials"
   # # vars:
   # #   check: "crypto_materials"
   # when:
