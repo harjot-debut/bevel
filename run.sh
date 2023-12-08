@@ -33,13 +33,13 @@ echo "Validatin network yaml"
 ajv validate -s /home/bevel/platforms/network-schema.json -d /home/bevel/build/network.yaml 
 
 
-# echo "Running the playbook..."
-# exec ansible-playbook -vv /home/bevel/platforms/shared/configuration/site.yaml --inventory-file=/home/bevel/platforms/shared/inventory/ -e "@/home/bevel/build/network.yaml" -e 'ansible_python_interpreter=/usr/bin/python3' 
+echo "Running the playbook..."
+exec ansible-playbook -vv /home/bevel/platforms/shared/configuration/site.yaml --inventory-file=/home/bevel/platforms/shared/inventory/ -e "@/home/bevel/build/network.yaml" -e 'ansible_python_interpreter=/usr/bin/python3' 
 
 # echo "Running the playbook..."
 # exec ansible-playbook -vv /home/bevel/platforms/shared/configuration/site.yaml --inventory-file=/home/bevel/platforms/shared/inventory/ -e "@/home/bevel/build/network.yaml" -e 'ansible_python_interpreter=/usr/bin/python3' --start-at-task="Setup script for Vault and OS Package Manager" 
 
 
 
-echo "Running the playbook..."
-exec ansible-playbook -vv /home/bevel/platforms/shared/configuration/site.yaml --inventory-file=/home/bevel/platforms/shared/inventory/ -e "@/home/bevel/build/network.yaml" -e 'ansible_python_interpreter=/usr/bin/python3' --start-at-task="Remove the build directory and contents" 
+# echo "Running the playbook..."
+# exec ansible-playbook -vv /home/bevel/platforms/shared/configuration/site.yaml --inventory-file=/home/bevel/platforms/shared/inventory/ -e "@/home/bevel/build/network.yaml" -e 'ansible_python_interpreter=/usr/bin/python3' --start-at-task="Remove the build directory and contents" 
