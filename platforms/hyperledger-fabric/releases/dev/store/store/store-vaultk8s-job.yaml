@@ -36,8 +36,8 @@ spec:
       kubernetes_url: https://test-bevel-integra-dns-elwgnmdn.hcp.eastus.azmk8s.io:443
     
     rbac:
-      create: True
+      create: False
 
     serviceAccount:
-      create: True
+      create: False
       name: vault-auth
