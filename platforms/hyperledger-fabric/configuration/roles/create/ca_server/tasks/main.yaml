@@ -19,7 +19,7 @@
     path: "./build/crypto-config/{{ component_type }}Organizations/{{ component_name }}/ca" #passing path in chart
 
 
-- name: Print vault_path comng from file
+- name: Print vault_path coming from file
   debug:
     msg: "vault.secret_path: {{ vault.secret_path }}"
   when: vault.secret_path is defined

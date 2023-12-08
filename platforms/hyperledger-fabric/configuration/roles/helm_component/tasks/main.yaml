@@ -42,7 +42,7 @@
     msg: "type: {{type }}"
   when: type is defined  
 
-  - name: Print charts_dir comng from file
+- name: Print charts_dir comng from file
   debug:
     msg: "charts_dir: {{charts_dir }}"
   when: charts_dir is defined  
