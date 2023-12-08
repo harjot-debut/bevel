@@ -1,0 +1,73 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: supplychain-net-ca-tools
+  namespace: supplychain-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: supplychain-net-ca-tools
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-dev
+        namespace: flux-dev
+      chart: platforms/hyperledger-fabric/charts/fabric-catools
+  values:
+    metadata:
+      namespace: supplychain-net
+      name: ca-tools
+      component_type: orderer
+      org_name: supplychain
+      proxy: none
+    annotations:  
+      service:
+        - example1: example2
+      pvc:
+      deployment:
+    replicaCount: 1
+
+    image:
+      alpineutils: ghcr.io/hyperledger/bevel-alpine:latest
+      catools: ghcr.io/hyperledger/bevel-fabric-ca-tools:1.2.1
+      pullPolicy: IfNotPresent
+    
+    storage:
+      storageclassname: supplychain-azure-storageclass
+      storagesize: 512Mi
+    
+    vault:
+      role: vault-role
+      address: http://18.219.111.164:8200
+      authpath: devsupplychain-net-auth
+      secretusers: secretsv2/data/crypto/ordererOrganizations/supplychain-net/users
+      secretorderer: secretsv2/data/crypto/ordererOrganizations/supplychain-net/orderers
+      secretpeer: secretsv2/data/crypto/ordererOrganizations/supplychain-net/peers
+      secretpeerorderertls: secretsv2/data/crypto/ordererOrganizations/supplychain-net/orderer/tls
+      secretcert: secretsv2/data/crypto/ordererOrganizations/supplychain-net/ca?ca.supplychain-net-cert.pem
+      secretkey: secretsv2/data/crypto/ordererOrganizations/supplychain-net/ca?supplychain-net-CA.key
+      secretcouchdb: secretsv2/data/credentials/supplychain-net/couchdb/supplychain
+      secretconfigfile: secretsv2/data/crypto/ordererOrganizations/supplychain-net/msp/config
+      serviceaccountname: vault-auth
+      type: hashicorp
+      imagesecretname: ""
+    
+    healthcheck: 
+      retries: 10
+      sleepTimeAfterError: 2
+
+    
+    org_data:
+      external_url_suffix: org1proxy.blockchaincloudpoc.com
+      component_subject: O=Orderer,OU=Orderer,L=51.50/-0.13/London,C=GB
+      cert_subject: O=Orderer/OU=Orderer/L=51.50,-0.13,London/C=GB
+      component_country: UK
+      component_state: London
+      component_location: London
+      ca_url: ca.supplychain-net.org1proxy.blockchaincloudpoc.com
+
+    orderers:
+      name: orderer1-orderer2-orderer3-
