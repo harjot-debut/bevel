@@ -49,7 +49,7 @@
 
 
 - name: Print metadata.name comng from file   
-  debug:
+  debug:  #supplychain-cacerts-job
     msg: "metadata.name: {{metadata.name }}"  #/home/bevel/platforms/hyperledger-fabric/configuration/../../../platforms/hyperledger-fabric/releases/dev/supplychain/supplychain/supplychain-cacerts-job.yaml"
   when: metadata.name is defined  
 
@@ -62,7 +62,9 @@
 - name: "Create value file"     #/home/bevel/platforms/hyperledger-fabric/configuration/build/test/supplychain-cacerts-job.yaml
   local_action: copy content="{{ spec.get('values') | to_nice_yaml }}" dest="./build/test/{{metadata.name}}.yaml"
   when: value_stat_result.stat.exists == True
-  changed_when: false
+  changed_when: false   #"msg": "spec.get('values'): {'metadata': {'name': 'supplychain', 'component_name': 'supplychain-net', 'namespace': 'supplychain-net', 'images': {'alpineutils': 'ghcr.io/hyperledger/bevel-alpine:latest'}}, 'vault': {'role': 'vault-role', 'address': 'http://127.0.0.1:8200', 'authpath': 'devsupplychain-net-auth', 'secretcryptoprefix': 'secretsv2/data/crypto/ordererOrganizations/supplychain-net/ca', 'secretcredentialsprefix': 'secretsv2/data/credentials/supplychain-net/ca/supplychain', 'serviceaccountname': 'vault-auth', 'type': 'hashicorp', 'imagesecretname': ''}, 'ca': {'subject': '/C=GB/ST=London/L=London/O=Orderer/CN=ca.supplychain-net.org1proxy.blockchaincloudpoc.com'}}"
+
+
 
 # Execute helm lint. If this fails, fix the errors
 - name: "Run helm lint"

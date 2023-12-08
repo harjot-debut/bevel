@@ -43,7 +43,7 @@
 - name: Print check comng in ca_server file after checking ca key
   debug:
     msg: "check: {{check }}"
-  when: check is defined  #
+  when: check is defined  #  check is empty here 
 
 
 - name: Print component comng from file
@@ -55,7 +55,8 @@
 - name: Print ca comng from file
   debug:
     msg: "ca: {{ca }}"
-  when: ca is defined  #supplychain
+  when: ca is defined  #"ca: {'name': 'ca', 'subject': '/C=GB/ST=London/L=London/O=Orderer/CN=ca.supplychain-net.org1proxy.blockchaincloudpoc.com', 'type': 'ca', 'grpc': {'port': 7054}}"
+
 
 # Generate cacerts helmrelease file.
 - name: "Create value file for cacerts job"
@@ -96,11 +97,13 @@
 
 
 - name: Print item comng from file
+#"item: {'organization': None, 'name': 'supplychain', 'country': 'UK', 'state': 'London', 'location': 'London', 'subject': 'O=Orderer,OU=Orderer,L=51.50/-0.13/London,C=GB', 'type': 'orderer', 'external_url_suffix': 'org1proxy.blockchaincloudpoc.com', 'org_status': 'new', 'fabric_console': 'enabled', 'ca_data': {'url': 'ca.supplychain-net.org1proxy.blockchaincloudpoc.com', 'certificate': '/home/bevel/build/supplychain/server.crt'}, 'cloud_provider': 'azure', 'k8s': {'region': 'eastus', 'context': 'test-bevel-integra', 'config_file': '/home/bevel/build/config'}, 'vault': {'url': 'http://127.0.0.1:8200', 'root_token': 'hvs.4CKBWfgfG9Hqmvbtmys4K8aE', 'secret_path': 'secretsv2'}, 'gitops': {'git_protocol': 'https', 'git_url': 'https://github.com/harjot-debut/bevel.git', 'branch': 'local', 'release_dir': 'platforms/hyperledger-fabric/releases/dev', 'chart_source': 'platforms/hyperledger-fabric/charts', 'git_repo': 'github.com/harjot-debut/bevel.git', 'username': 'harjot-debut', 'password': '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', 'email': 'harjot.singh@debutinfotech.com', 'private_key': 'path_to_private_key'}, 'services': {'ca': {'name': 'ca', 'subject': '/C=GB/ST=London/L=London/O=Orderer/CN=ca.supplychain-net.org1proxy.blockchaincloudpoc.com', 'type': 'ca', 'grpc': {'port': 7054}}, 'consensus': {'name': 'raft'}, 'orderers': [{'orderer': None, 'name': 'orderer1', 'type': 'orderer', 'consensus': 'raft', 'grpc': {'port': 7050}, 'ordererAddress': 'orderer1.org1proxy.blockchaincloudpoc.com:443'}, {'orderer': None, 'name': 'orderer2', 'type': 'orderer', 'consensus': 'raft', 'grpc': {'port': 7050}, 'ordererAddress': 'orderer2.org1proxy.blockchaincloudpoc.com:443'}, {'orderer': None, 'name': 'orderer3', 'type': 'orderer', 'consensus': 'raft', 'grpc': {'port': 7050}, 'ordererAddress': 'orderer3.org1proxy.blockchaincloudpoc.com:443'}]}}"
+
   debug:
     msg: "item: {{item }}"
   when: item is defined  #supplychain
 
-# Check if cacerts-job is completed
+# Check if cacerts-job is completed  # will if certs_created.failed == True from above tasks 
 - name: Check if cacerts-job job is completed
   include_role:
     name: "{{ playbook_dir }}/../../shared/configuration/roles/check/helm_component"
@@ -108,7 +111,7 @@
     component_type: Job
     namespace: "{{ component }}-net"  #supplychain-net
     component_name: "{{ component }}-cacerts-job" #supplychain--cacerts-job
-    kubernetes: "{{ item.k8s }}"
+    kubernetes: "{{ item.k8s }}"   #'k8s': {'region': 'eastus', 'context': 'test-bevel-integra', 'config_file': '/home/bevel/build/config'}
   when: certs_created.failed == True
   tags:
     - notest
