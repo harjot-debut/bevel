@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: store-cacerts-job
+  namespace: store-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: store-cacerts-job
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-dev
+        namespace: flux-dev
+      chart: platforms/hyperledger-fabric/charts/fabric-cacerts-gen
+  values:
+    metadata:
+      name: store
+      component_name: store-net
+      namespace: store-net    
+      images:
+       alpineutils: ghcr.io/hyperledger/bevel-alpine:latest
+    vault:
+      role: vault-role
+      address: http://18.219.111.164:8200
+      authpath: devstore-net-auth
+      secretcryptoprefix: secretsv2/data/crypto/peerOrganizations/store-net/ca
+      secretcredentialsprefix: secretsv2/data/credentials/store-net/ca/store
+      serviceaccountname: vault-auth
+      type: hashicorp
+      imagesecretname: ""
+      
+    ca:
+      subject: /C=US/ST=New York/L=New York/O=Store/CN=ca.store-net.org4proxy.blockchaincloudpoc.com
