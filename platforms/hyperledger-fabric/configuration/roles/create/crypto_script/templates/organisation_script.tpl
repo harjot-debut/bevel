@@ -21,6 +21,9 @@ ORG_CYPTO_FOLDER="/crypto-config/peerOrganizations/${FULLY_QUALIFIED_ORG_NAME}"
 
 ROOT_TLS_CERT="/crypto-config/peerOrganizations/${FULLY_QUALIFIED_ORG_NAME}/ca/ca.${FULLY_QUALIFIED_ORG_NAME}-cert.pem"
 
+echo "HOME $HOME"
+echo $PWD
+
 CAS_FOLDER="${HOME}/ca-tools/cas/ca-${ORG_NAME}"
 ORG_HOME="${HOME}/ca-tools/${ORG_NAME}"
 
@@ -36,8 +39,11 @@ if [ "{{ proxy }}" != "none" ]; then
 	mv ${ORG_CYPTO_FOLDER}/msp/cacerts/*.pem ${ORG_CYPTO_FOLDER}/msp/cacerts/ca-${FULLY_QUALIFIED_ORG_NAME}-${EXTERNAL_URL_SUFFIX}.pem
 fi
 mkdir ${ORG_CYPTO_FOLDER}/msp/tlscacerts
+ls ${ORG_CYPTO_FOLDER}/msp/tlscacerts
 cp ${ORG_CYPTO_FOLDER}/msp/cacerts/* ${ORG_CYPTO_FOLDER}/msp/tlscacerts
 
+
+ls ${ORG_CYPTO_FOLDER}/msp/tlscacerts
 # Add affiliation for organisation
 fabric-ca-client affiliation add ${AFFILIATION} -u https://${CA_ADMIN_USER}:${CA_ADMIN_PASS}@${CA} --tls.certfiles ${ROOT_TLS_CERT} --home ${CAS_FOLDER}
 ## Register and enroll admin for Org and populate admincerts for MSP
@@ -55,6 +61,7 @@ mkdir -p ${ORG_CYPTO_FOLDER}/users/${ORG_ADMIN_USER}
 cp -R ${ORG_HOME}/admin/msp ${ORG_CYPTO_FOLDER}/users/${ORG_ADMIN_USER}
 
 if [ "{{ proxy }}" != "none" ]; then
+	echo "inside ifff"
 	mv ${ORG_CYPTO_FOLDER}/users/${ORG_ADMIN_USER}/msp/cacerts/*.pem ${ORG_CYPTO_FOLDER}/users/${ORG_ADMIN_USER}/msp/cacerts/ca-${FULLY_QUALIFIED_ORG_NAME}-${EXTERNAL_URL_SUFFIX}.pem
 fi
 
@@ -86,10 +93,14 @@ while [  ${COUNTER} -lt ${NO_OF_PEERS} ]; do
 
 	# Copy the TLS key and cert to the appropriate place
 	mkdir -p ${ORG_CYPTO_FOLDER}/peers/${PEER}/tls
+
+	ls ${ORG_CYPTO_FOLDER}/peers
 	cp ${ORG_HOME}/cas/peers/tls/keystore/* ${ORG_CYPTO_FOLDER}/peers/${PEER}/tls/server.key
 	cp ${ORG_HOME}/cas/peers/tls/signcerts/* ${ORG_CYPTO_FOLDER}/peers/${PEER}/tls/server.crt
 	cp ${ORG_HOME}/cas/peers/tls/tlscacerts/* ${ORG_CYPTO_FOLDER}/peers/${PEER}/tls/ca.crt
 	
+	${ORG_CYPTO_FOLDER}/peers/${PEER}/tls
+
 	rm -rf ${ORG_HOME}/cas/peers/tls
 	
 	# Enroll again to get the peer's enrollment certificate (default profile)
@@ -97,6 +108,8 @@ while [  ${COUNTER} -lt ${NO_OF_PEERS} ]; do
 
 	# Create the TLS CA directories of the MSP folder if they don't exist.
 	mkdir -p ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/tlscacerts	
+
+	ls ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/tlscacerts
 	
 	# Copy the peer org's admin cert into target MSP directory
 	mkdir -p ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/admincerts
@@ -106,7 +119,12 @@ while [  ${COUNTER} -lt ${NO_OF_PEERS} ]; do
 	cp ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/cacerts/* ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/tlscacerts
 	cp ${ORG_CYPTO_FOLDER}/msp/admincerts/${ORG_ADMIN_USER}-cert.pem ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/admincerts
 	
+	${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/tlscacerts
+
 	let COUNTER=COUNTER+1
 done
 
 cd ${CURRENT_DIR}
+
+ echo "after chann2222ging dir"
+    echo $(pwd)
