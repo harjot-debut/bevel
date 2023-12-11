@@ -20,7 +20,7 @@ ORG_CYPTO_FOLDER="/crypto-config/ordererOrganizations/${FULLY_QUALIFIED_ORG_NAME
 
 ROOT_TLS_CERT="/crypto-config/ordererOrganizations/${FULLY_QUALIFIED_ORG_NAME}/ca/ca.${FULLY_QUALIFIED_ORG_NAME}-cert.pem"
 
-echo $PWD
+echo " echo in /home/bevel/platforms/hyperledger-fabric/configuration/roles/create/crypto_script/templates/orderer_organisation_script.tpl $PWD"
 echo "HOME is $HOME"
 
 CAS_FOLDER="${HOME}/ca-tools/cas/ca-${ORG_NAME}"
@@ -40,9 +40,13 @@ if [ "{{ proxy }}" != "none" ]; then
     echo "insiode if 1"
     mv ${ORG_CYPTO_FOLDER}/msp/cacerts/*.pem ${ORG_CYPTO_FOLDER}/msp/cacerts/ca-${FULLY_QUALIFIED_ORG_NAME}-${EXTERNAL_URL_SUFFIX}.pem
 fi
+
+echo "creating ${ORG_CYPTO_FOLDER}/msp/tlscacerts "
 mkdir ${ORG_CYPTO_FOLDER}/msp/tlscacerts
 
 ls ${ORG_CYPTO_FOLDER}/msp/cacerts
+
+echo "copying cacerts to tlscacerts"
 
 cp ${ORG_CYPTO_FOLDER}/msp/cacerts/* ${ORG_CYPTO_FOLDER}/msp/tlscacerts
 

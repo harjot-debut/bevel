@@ -40,7 +40,7 @@ data:
     ROOT_TLS_CERT="/crypto-config/ordererOrganizations/${FULLY_QUALIFIED_ORG_NAME}/ca/ca.${FULLY_QUALIFIED_ORG_NAME}-cert.pem"
 
 
-    echo $PWD
+    echo "echo in /home/bevel/platforms/hyperledger-fabric/configuration/roles/create/crypto_script/templates/orderer_organisation_script.tpl  $PWD"
     echo "HOME is $HOME"
 
     CAS_FOLDER="${HOME}/ca-tools/cas/ca-${ORG_NAME}"
@@ -69,7 +69,7 @@ data:
     cat ${ORG_CYPTO_FOLDER}/msp/tlscacerts
     cp ${ORG_CYPTO_FOLDER}/msp/cacerts/* ${ORG_CYPTO_FOLDER}/msp/tlscacerts
 
-    ${CAS_FOLDER}
+    echo ${CAS_FOLDER}  ##/root/ca-tools/cas/ca-supplychain
 
     ## Register and enroll admin for Org and populate admincerts for MSP
     fabric-ca-client register -d --id.name ${ORG_ADMIN_USER} --id.secret ${ORG_ADMIN_PASS} --id.type admin --csr.names "${SUBJECT_PEER}" --id.attrs "hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.AffiliationMgr=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" --tls.certfiles ${ROOT_TLS_CERT} --home ${CAS_FOLDER}
@@ -306,6 +306,7 @@ data:
       fi
       cp ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/cacerts/* ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/tlscacerts
       cp ${ORG_CYPTO_FOLDER}/msp/admincerts/${ORG_ADMIN_USER}-cert.pem ${ORG_CYPTO_FOLDER}/peers/${PEER}/msp/admincerts
+      
       
       let COUNTER=COUNTER+1
     done
