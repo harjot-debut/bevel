@@ -7,8 +7,16 @@
 
 set -e
 
+
+
 echo "Starting build process..."
 
+git --version
+
+echo "checking git info ====================="
+
+git config user.name
+git config user.email
 
 # export VAULT_ADDR='http://192.168.18.177:8200' 
 # export VAULT_TOKEN="hvs.Cg6HrMwJ01aP6FVRXwDQz0pJ"
@@ -19,6 +27,15 @@ export PATH=/root/bin:$PATH
 echo "entered"
 
 
+
+echo "setting  git info ====================="
+echo ""
+git config --global user.name "harjot-debut"
+git config --global user.email "harjot.singh@debutinfotech.com"
+
+
+git config user.name
+git config user.email
 
 #Path to k8s config file
 export KUBECONFIG=/home/bevel/build/config
